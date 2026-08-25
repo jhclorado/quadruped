@@ -78,7 +78,7 @@ void receive_init() {
   }
 
   // Register the receive callback
-  esp_now_register_recv_cb(onDataReceive);
+  // esp_now_register_recv_cb(onDataReceive);
 
   Serial.println("Setup complete. Waiting for a master to broadcast a message...");
 }

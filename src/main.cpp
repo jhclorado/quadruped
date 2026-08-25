@@ -7,6 +7,52 @@
 #include "sequences.h"
 
 
+void gait();
+void ready();
+
+// ================= ESP-NOW =================
+volatile char command = 0;
+volatile bool commandReady = false;
+
+// callback when data is received
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  if (len >= 1) {
+    command = incomingData[0];
+    commandReady = true;
+  }
+}
+
+
+bool isInterrupted() {
+  if (commandReady) {
+    commandReady = false;
+    return true;
+  }
+  return false;
+}
+
+void handleCommand(char key) {
+  Serial.println("Received command: " + String(key));
+  switch (key) {
+
+    case 'q':
+    case 'Q':
+      initialPosition();
+      Serial.println("Stand");
+      break;
+
+    case 'w':
+    case 'W':
+      gait();
+      Serial.println("Walk");
+      break;
+
+  //   case ' ':
+  //     jump();
+  //     Serial.println("Jump");
+  //     break;
+  }
+}
 
 
 
@@ -242,6 +288,7 @@ void setup() {
   
   // Initialize ESP-NOW receiver
   receive_init();
+  esp_now_register_recv_cb(OnDataRecv);
   
   Serial.println("\n=== BattleBot Ready ===");
   Serial.println("Type '?' for control help");
@@ -249,25 +296,39 @@ void setup() {
   // startAutoWalk();
 }
 
-void loop() {
-  if (autoWalk) {
-    runAutoWalkStep();
-  } else {
-    // Check for serial input
-    if (Serial.available()) {
-      char key = Serial.read();
-      if (key >= 32) {  // Only process printable characters
-        handleSerialInput(key);
-      }
-    }
+// void loop() {
+//   if (autoWalk) {
+//     runAutoWalkStep();
+//   } else {
+//     // Check for serial input
+//     if (Serial.available()) {
+//       char key = Serial.read();
+//       if (key >= 32) {  // Only process printable characters
+//         handleSerialInput(key);
+//       }
+//     }
     
-    // Check for new ESP-NOW messages
-    char msg[250];
-    uint8_t sender[6];
-    if (get_latest_message(msg, sizeof(msg), sender)) {
-      controller.handlePacket((uint8_t*)msg, strlen(msg));
+//     // Check for new ESP-NOW messages
+//     char msg[250];
+//     uint8_t sender[6];
+//     if (get_latest_message(msg, sizeof(msg), sender)) {
+//       controller.handlePacket((uint8_t*)msg, strlen(msg));
+//     }
+//   }
+  
+//   robot.update();
+// }
+
+
+void loop() {
+
+  if (commandReady) {
+    commandReady = false;
+
+    if (command >= 32) {
+      handleCommand(command);
     }
   }
-  
+
   robot.update();
 }
