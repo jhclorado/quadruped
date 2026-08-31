@@ -196,43 +196,212 @@ void fibulaStand() {
     joints.br_fibula = 0;
 }
 
+
 void gait() {
-    // BL && FR
-    joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+
+  // 1ST STEP
+  // BL && FR
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+
+
+  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+
+  applyJointAngles();
+  move();
+
+  // SECOND STEP
+  // BL && FR
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  // THIRD STEP
+  // BL && FR
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
+
+  // BR && FL
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  // joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+
+  applyJointAngles();
+  move();
+
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA; // now with other side foot
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+
+
+
+  joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  applyJointAngles();
+  move();
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+
+
+  // joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  // joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  
+  // joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  // joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  // applyJointAngles();
+  // move();
+  
+  // joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  // joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  // applyJointAngles();
+  // move();
+
+
+    // BR && FL
+    // joints.fl_fibula = 135;
+    // joints.br_fibula = 45;
+
+    /*
+    joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+    joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+    applyJointAngles();
+    move();
+    joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+    applyJointAngles();
+    move();
+    */
+
+
+}
+
+void turnLeft() {
+
+  // 1ST STEP
+  // BL && FR
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+
+
+  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+
+  applyJointAngles();
+  move();
+
+  // SECOND STEP
+  // BL && FR
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  // THIRD STEP
+  // BL && FR
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
+
+  // BR && FL
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  // joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+
+  applyJointAngles();
+  move();
+
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
     joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-
-
-    joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
-    joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
-
     applyJointAngles();
     move();
 
-    // BL && FR
-    joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
     joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
     applyJointAngles();
     move();
 
+
+  // 1ST STEP
     // BL && FR
-    joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
-    joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
+    joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+    joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+
+
+    joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+    joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+
+    applyJointAngles();
+    move();
+
+    // SECOND STEP
+    // BL && FR
+    joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+    joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+    applyJointAngles();
+    move();
+    // THIRD STEP
+    // BL && FR
+    joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+    joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
 
     // BR && FL
-    joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
-    joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
-    joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+    joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+    joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+    joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
     // joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
 
     applyJointAngles();
     move();
 
-    joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
-    joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+    joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+    joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
     applyJointAngles();
     move();
 
-    
+
+    joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+    joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+    applyJointAngles();
+    move();
+
+    joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+    applyJointAngles();
+    move();
+
+    /* 
     joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
     joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
     applyJointAngles();
@@ -253,12 +422,16 @@ void gait() {
     joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
     
     joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+    joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
     applyJointAngles();
     move();
     
     joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+    joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
     applyJointAngles();
     move();
+
+    */
 
     // BR && FL
     // joints.fl_fibula = 135;
@@ -318,6 +491,8 @@ void walk() {
 
 void initialPosition() {
   ready();
+  // applyJointAngles();
+  // move();
   
 }
 

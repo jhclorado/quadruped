@@ -34,6 +34,11 @@ bool isInterrupted() {
 void handleCommand(char key) {
   Serial.println("Received command: " + String(key));
   switch (key) {
+    case 'x':
+    case 'X':
+      ready();
+      applyJointAngles();
+      move();
 
     case 'q':
     case 'Q':
