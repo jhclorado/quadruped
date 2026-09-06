@@ -29,12 +29,12 @@ const int CROSS_FRONT_RIGHT_FEMUR = 135;
 const int CROSS_BACK_LEFT_FEMUR = 135;
 const int CROSS_BACK_RIGHT_FEMUR = 45;
 
-const int FORWARD_FRONT_LEFT_FEMUR = 45;
+const int FORWARD_FRONT_LEFT_FEMUR = 135;
 const int FORWARD_FRONT_RIGHT_FEMUR = 135;
 const int FORWARD_BACK_LEFT_FEMUR = 45;
 const int FORWARD_BACK_RIGHT_FEMUR = 135;
 
-const int BACKWARD_FRONT_LEFT_FEMUR = 135;
+const int BACKWARD_FRONT_LEFT_FEMUR = 45;
 const int BACKWARD_FRONT_RIGHT_FEMUR = 45;
 const int BACKWARD_BACK_LEFT_FEMUR = 135;
 const int BACKWARD_BACK_RIGHT_FEMUR = 45;
@@ -178,10 +178,10 @@ void move() {
 
 
 void ready() {
-    joints.fl_femur = 45;;
-    joints.fr_femur = 135;
-    joints.bl_femur = 135;
-    joints.br_femur = 45;
+    joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;;
+    joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+    joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+    joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
 
     joints.fl_fibula = 0;
     joints.fr_fibula = 180;
