@@ -8,6 +8,8 @@ const int LIFT_FRONT_RIGHT_FIBULA = 135;
 const int LIFT_BACK_LEFT_FIBULA = 135;
 const int LIFT_BACK_RIGHT_FIBULA = 45;
 
+
+
 const int DOWN_FRONT_LEFT_FIBULA = 0;
 const int DOWN_FRONT_RIGHT_FIBULA = 180;
 const int DOWN_BACK_LEFT_FIBULA = 180;
@@ -22,19 +24,17 @@ const int UP_BACK_RIGHT_FIBULA = 180;
 const int POINT_FIBULA = 90;
 
 
-
-
 const int CROSS_FRONT_LEFT_FEMUR = 45;
 const int CROSS_FRONT_RIGHT_FEMUR = 135;
 const int CROSS_BACK_LEFT_FEMUR = 135;
 const int CROSS_BACK_RIGHT_FEMUR = 45;
 
-const int FORWARD_FRONT_LEFT_FEMUR = 135;
+const int FORWARD_FRONT_LEFT_FEMUR = 45;
 const int FORWARD_FRONT_RIGHT_FEMUR = 135;
 const int FORWARD_BACK_LEFT_FEMUR = 45;
 const int FORWARD_BACK_RIGHT_FEMUR = 135;
 
-const int BACKWARD_FRONT_LEFT_FEMUR = 45;
+const int BACKWARD_FRONT_LEFT_FEMUR = 135;
 const int BACKWARD_FRONT_RIGHT_FEMUR = 45;
 const int BACKWARD_BACK_LEFT_FEMUR = 135;
 const int BACKWARD_BACK_RIGHT_FEMUR = 45;
@@ -196,7 +196,23 @@ void fibulaStand() {
     joints.br_fibula = 0;
 }
 
+void pushup () {
 
+  // const int DOWN_FRONT_LEFT_FIBULA = 0;
+  // const int DOWN_FRONT_RIGHT_FIBULA = 180;
+  // const int DOWN_BACK_LEFT_FIBULA = 180;
+  // const int DOWN_BACK_RIGHT_FIBULA = 0;
+  joints.fl_fibula = POINT_FIBULA - 20;
+  joints.fr_fibula = POINT_FIBULA + 20;
+  joints.bl_fibula = POINT_FIBULA + 20;
+  joints.br_fibula = POINT_FIBULA - 20;
+  applyJointAngles(); move();
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles(); move();
+}
 void gait() {
 
   // 1ST STEP

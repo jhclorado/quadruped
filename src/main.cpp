@@ -51,6 +51,10 @@ void handleCommand(char key) {
       gait();
       Serial.println("Walk");
       break;
+    case '1':
+      pushup();
+      Serial.println("Walk");
+      break;
 
   //   case ' ':
   //     jump();
@@ -60,59 +64,6 @@ void handleCommand(char key) {
 }
 
 
-
-
-void startAutoWalk() {
-  delay(2000);
-  Serial.println("Starting uncontrolled test walk...");
-  autoWalk = true;
-  autoWalkLastStep = millis();
-  autoWalkPhase = 0;
-}
-
-void runAutoWalkStep() {
-  if (!autoWalk) {
-    return;
-  }
-
-  unsigned long now = millis();
-  if (now - autoWalkLastStep < AUTO_WALK_STEP_MS) {
-    return;
-  }
-  autoWalkLastStep = now;
-
-  switch (autoWalkPhase) {
-    case 0:
-      robot.frontLeft.setTarget(130, 40);
-      robot.backRight.setTarget(130, 40);
-      robot.frontRight.setTarget(50, 80);
-      robot.backLeft.setTarget(50, 80);
-      break;
-
-    case 1:
-      robot.frontLeft.setTarget(100, 60);
-      robot.backRight.setTarget(100, 60);
-      robot.frontRight.setTarget(80, 60);
-      robot.backLeft.setTarget(80, 60);
-      break;
-
-    case 2:
-      robot.frontLeft.setTarget(70, 80);
-      robot.backRight.setTarget(70, 80);
-      robot.frontRight.setTarget(110, 40);
-      robot.backLeft.setTarget(110, 40);
-      break;
-
-    case 3:
-      robot.frontLeft.setTarget(90, 60);
-      robot.backRight.setTarget(90, 60);
-      robot.frontRight.setTarget(90, 60);
-      robot.backLeft.setTarget(90, 60);
-      break;
-  }
-
-  autoWalkPhase = (autoWalkPhase + 1) % 4;
-}
 
 void handleSerialInput(char key) {
   bool updated = false;
