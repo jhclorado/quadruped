@@ -67,6 +67,9 @@ void handleCommand(char key) {
     case '4':
       dogbot();
       break;
+    case '5':
+      chaos();
+      break;
 
   //   case ' ':
   //     jump();

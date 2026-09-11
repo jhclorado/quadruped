@@ -1,5 +1,7 @@
 #ifndef SEQUENCES_H
 #define SEQUENCES_H
+// #define DAVIN
+// #define PIOLO
 #include "legs.h"
 
 
@@ -28,7 +30,18 @@ const int CROSS_FRONT_LEFT_FEMUR = 45;
 const int CROSS_FRONT_RIGHT_FEMUR = 135;
 const int CROSS_BACK_LEFT_FEMUR = 135;
 const int CROSS_BACK_RIGHT_FEMUR = 45;
+// #ifdef PIOLO
+// const int FORWARD_FRONT_LEFT_FEMUR = 135;
+// const int FORWARD_FRONT_RIGHT_FEMUR = 135;
+// const int FORWARD_BACK_LEFT_FEMUR = 45;
+// const int FORWARD_BACK_RIGHT_FEMUR = 135;
 
+// const int BACKWARD_FRONT_LEFT_FEMUR = 45;
+// const int BACKWARD_FRONT_RIGHT_FEMUR = 45;
+// const int BACKWARD_BACK_LEFT_FEMUR = 135;
+// const int BACKWARD_BACK_RIGHT_FEMUR = 45;
+// #endif
+// #ifdef DAVIN
 const int FORWARD_FRONT_LEFT_FEMUR = 45;
 const int FORWARD_FRONT_RIGHT_FEMUR = 135;
 const int FORWARD_BACK_LEFT_FEMUR = 45;
@@ -38,13 +51,16 @@ const int BACKWARD_FRONT_LEFT_FEMUR = 135;
 const int BACKWARD_FRONT_RIGHT_FEMUR = 45;
 const int BACKWARD_BACK_LEFT_FEMUR = 135;
 const int BACKWARD_BACK_RIGHT_FEMUR = 45;
+// #endif
 
 const int CENTER_FRONT_LEFT_FEMUR = 90;
 const int CENTER_FRONT_RIGHT_FEMUR = 90;
 const int CENTER_BACK_LEFT_FEMUR = 90;
 const int CENTER_BACK_RIGHT_FEMUR = 90;
 
+
 const int CENTER_FEMUR = 90;
+
 
 
 
@@ -189,6 +205,7 @@ void ready() {
     joints.br_fibula = 0;
 }
 
+
 void fibulaStand() {
     joints.fl_fibula = 180;
     joints.fr_fibula = 0;
@@ -274,6 +291,29 @@ void dog() {
   joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
   applyJointAngles(); move();
+}
+
+void chaos() {
+  dog();
+  delay(200);
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles(); move();
+  delay(200);
+  applyJointAngles(); move();
+  dog();
+  delay(200);
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles(); move();
+  delay(200);
+  dog();
+  delay(200);
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles(); move();
+  delay(200);
+  
 }
 void dogbot() {
   dog();
