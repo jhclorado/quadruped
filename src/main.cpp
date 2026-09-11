@@ -36,9 +36,8 @@ void handleCommand(char key) {
   switch (key) {
     case 'x':
     case 'X':
-      ready();
-      applyJointAngles();
-      move();
+      calibrate();
+
 
     case 'q':
     case 'Q':
@@ -54,6 +53,19 @@ void handleCommand(char key) {
     case '1':
       pushup();
       Serial.println("Walk");
+      break;
+    case 'c':
+      calibrate();
+      break;
+
+    case '2':
+      kembot();
+      break;
+    case '3':
+      greet();
+      break;
+    case '4':
+      dogbot();
       break;
 
   //   case ' ':
