@@ -2,7 +2,11 @@
 #define SEQUENCES_H
 // #define DAVIN
 // #define PIOLO
+#pragma once
 #include "legs.h"
+
+extern Quadruped robot;
+extern Controller controller;
 
 
 const int LIFT_FRONT_LEFT_FIBULA = 45;
@@ -144,8 +148,8 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // Quadruped with 8 servos (2 per limb)
 // Servo indices: FL_femur=0, FL_fibula=1, FR_femur=2, FR_fibula=3, 
 //                BL_femur=4, BL_fibula=5, BR_femur=6, BR_fibula=7
-Quadruped robot(0, 1, 2, 3, 4, 5, 6, 7);
-Controller controller(&robot);
+
+
 
 // Manual control settings
 constexpr int JOINT_STEP = 5;  // degrees per keypress
@@ -599,7 +603,7 @@ void turnLeft() {
 
 
 }
-void walk() {
+void walks() {
     ready();
     applyJointAngles();
     // left foot
@@ -656,5 +660,165 @@ void splitPosition() {
   joints.br_fibula = 90;
   
 }
+
+
+
+/* 
+
+void walk () {
+  
+  // step 1: lift hands
+  joints.fl_fibula = 45;
+  joints.br_fibula = 135;
+  applyJointAngles();
+  while ((robot.frontLeft.fibula.currentAngle != joints.fl_fibula) || (robot.backRight.fibula.currentAngle != joints.br_fibula)) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+
+  // step 2 move femurs
+
+  joints.fl_femur = 180; 
+  joints.br_femur = 90; 
+
+  applyJointAngles();
+  while ((robot.frontLeft.femur.currentAngle != joints.fl_femur) ||
+         (robot.backRight.femur.currentAngle != joints.br_femur) ) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+  
+  // step 3: move other legs forward
+  joints.bl_femur = 0;
+  joints.bl_fibula = 45;
+  joints.fl_fibula = 90;
+  applyJointAngles();
+  while (robot.backLeft.femur.currentAngle != joints.bl_femur || robot.backLeft.fibula.currentAngle != joints.bl_fibula) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+
+  // 4
+  joints.fl_fibula = 90;
+  joints.br_fibula = 180;
+  applyJointAngles();
+  while ((robot.frontLeft.fibula.currentAngle != joints.fl_fibula) || (robot.backRight.fibula.currentAngle != joints.br_fibula)) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+
+  
+  // 5
+  standUp();
+
+  // 6
+  joints.fr_fibula = 45;
+  joints.bl_fibula = 45;
+  applyJointAngles();
+  while ((robot.frontRight.fibula.currentAngle != joints.fr_fibula) || (robot.backLeft.fibula.currentAngle != joints.bl_fibula)) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+  // 7
+
+  joints.fr_femur = 0; 
+  joints.bl_femur = 90; 
+
+  applyJointAngles();
+  while ((robot.frontRight.femur.currentAngle != joints.fr_femur) ||
+         (robot.backLeft.femur.currentAngle != joints.bl_femur) ) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+  // 8 
+
+  joints.br_femur = 180;
+  joints.br_fibula = 135;
+  joints.fr_fibula = 0;
+  applyJointAngles();
+  while (robot.backRight.femur.currentAngle != joints.br_femur || robot.backRight.fibula.currentAngle != joints.br_fibula) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+  // 9
+  joints.fr_fibula = 0;
+  joints.bl_fibula = 0;
+  applyJointAngles();
+  while ((robot.frontRight.fibula.currentAngle != joints.fr_fibula) || (robot.backLeft.fibula.currentAngle != joints.bl_fibula)) {
+    robot.update();
+    if (isInterrupted()) return;
+  }
+
+  
+
+  standUp();
+  
+
+}
+
+
+*/
+void standUp() {
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  applyJointAngles(); move();
+}
+
+void walk() {
+      Serial.println(robot.idle);
+
+  // 1
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles(); move();
+  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
+  // 2
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  applyJointAngles(); move();
+
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+
+  joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+
+  applyJointAngles(); move();
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  applyJointAngles(); move();
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+  applyJointAngles(); move();
+
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  applyJointAngles(); move();
+
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
+
+
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  
+  applyJointAngles(); move();
+  
+  robot.idle = true;
+      Serial.println(robot.idle);
+
+}
+
 
 #endif  // SEQUENCES_H

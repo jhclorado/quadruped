@@ -57,7 +57,7 @@ public:
   int currentAngle = 0;
   int targetAngle = 0;
   unsigned long lastUpdate = 0;
-  int stepDelay = 2;
+  int stepDelay = 10;
 
   Joint(int index) {
     servoIndex = index;
@@ -127,6 +127,7 @@ public:
 
 class Quadruped {
 public:
+  bool idle = true;
   Limb frontLeft;
   Limb frontRight;
   Limb backLeft;
