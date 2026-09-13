@@ -4,7 +4,7 @@
 // #define PIOLO
 #pragma once
 #include "legs.h"
-
+#define STANDING_OFFSET 10
 extern Quadruped robot;
 extern Controller controller;
 
@@ -16,10 +16,10 @@ const int LIFT_BACK_RIGHT_FIBULA = 45;
 
 
 
-const int DOWN_FRONT_LEFT_FIBULA = 0;
-const int DOWN_FRONT_RIGHT_FIBULA = 180;
-const int DOWN_BACK_LEFT_FIBULA = 180;
-const int DOWN_BACK_RIGHT_FIBULA = 0;
+const int DOWN_FRONT_LEFT_FIBULA = 0 + STANDING_OFFSET;
+const int DOWN_FRONT_RIGHT_FIBULA = 180 - STANDING_OFFSET;
+const int DOWN_BACK_LEFT_FIBULA = 180 - STANDING_OFFSET;
+const int DOWN_BACK_RIGHT_FIBULA = 0 + STANDING_OFFSET;
 
 
 const int UP_FRONT_LEFT_FIBULA = 180;
@@ -254,10 +254,10 @@ void pushup () {
   // const int DOWN_FRONT_RIGHT_FIBULA = 180;
   // const int DOWN_BACK_LEFT_FIBULA = 180;
   // const int DOWN_BACK_RIGHT_FIBULA = 0;
-  joints.fl_fibula = POINT_FIBULA - 20;
-  joints.fr_fibula = POINT_FIBULA + 20;
-  joints.bl_fibula = POINT_FIBULA + 20;
-  joints.br_fibula = POINT_FIBULA - 20;
+  joints.fl_fibula = POINT_FIBULA - 45;
+  joints.fr_fibula = POINT_FIBULA + 45;
+  joints.bl_fibula = POINT_FIBULA + 45;
+  joints.br_fibula = POINT_FIBULA - 45;
   applyJointAngles(); move();
   joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
   joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
@@ -459,150 +459,6 @@ void gait() {
 
 }
 
-void turnLeft() {
-
-  // 1ST STEP
-  // BL && FR
-  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
-  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-
-
-  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
-  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
-
-  applyJointAngles();
-  move();
-
-  // SECOND STEP
-  // BL && FR
-  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
-  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
-  applyJointAngles();
-  move();
-  // THIRD STEP
-  // BL && FR
-  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
-  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
-
-  // BR && FL
-  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
-  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
-  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
-  // joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
-
-  applyJointAngles();
-  move();
-
-  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
-  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-  applyJointAngles();
-  move();
-
-  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
-    joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-    joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-
-  // 1ST STEP
-    // BL && FR
-    joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
-    joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
-
-
-    joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
-    joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
-
-    applyJointAngles();
-    move();
-
-    // SECOND STEP
-    // BL && FR
-    joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-    joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-    // THIRD STEP
-    // BL && FR
-    joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
-    joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
-
-    // BR && FL
-    joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-    joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
-    joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
-    // joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
-
-    applyJointAngles();
-    move();
-
-    joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
-    joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
-    applyJointAngles();
-    move();
-
-
-    joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
-    joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-    joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-    /* 
-    joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
-    joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-    joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-    joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
-    joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
-    joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
-    joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
-    applyJointAngles();
-    move();
-
-    joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
-    joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
-    
-    joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
-    joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-    
-    joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-    joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
-    applyJointAngles();
-    move();
-
-    */
-
-    // BR && FL
-    // joints.fl_fibula = 135;
-    // joints.br_fibula = 45;
-
-    /*
-    joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
-    joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
-    applyJointAngles();
-    move();
-    joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-    applyJointAngles();
-    move();
-    */
-
-
-}
 void walks() {
     ready();
     applyJointAngles();
@@ -771,54 +627,252 @@ void standUp() {
 }
 
 void walk() {
-      Serial.println(robot.idle);
+  Serial.println(robot.idle);
 
-  // 1
+  // 1 — Lift FL + BR, move FR backward
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
-  applyJointAngles(); move();
-  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
-  // 2
+  joints.fr_femur  = BACKWARD_FRONT_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 2 — Swing FL + BR forward
   joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
   joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
-  applyJointAngles(); move();
+  applyJointAngles();
+  move();
 
+  // 3 — Lift BL + FR, lower FL + BR
   joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
-  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
   joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
   joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  // Mirror femur positions
   joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
-
-  applyJointAngles(); move();
-  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
-  applyJointAngles(); move();
   joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
   joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
   joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
-  applyJointAngles(); move();
 
+  applyJointAngles();
+  move();
+
+  // 4 — Lower BL + FR, lift FL + BR
   joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
-  applyJointAngles(); move();
-
   joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  // Mirror femur positions
   joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
   joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
 
+  applyJointAngles();
+  move();
 
+  robot.idle = true;
+  Serial.println(robot.idle);
+}
+
+
+void turnLeft_() {
+  Serial.println(robot.idle);
+
+  // 1 — Lift FL + BR, move FR backward
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  joints.fr_femur  = BACKWARD_FRONT_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 2 — Swing FL + BR forward
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 3 — Lift BL + FR, lower FL + BR
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+
+  // Mirror femur positions
+  joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+
+  applyJointAngles();
+  move();
+  standUp();
+  applyJointAngles();
+  move();
+}
+
+
+
+
+void turnRight() {
+  const static int TURNING_OFFSET = 20;
+  Serial.println(robot.idle);
+
+  // 1 — Lift FL + BR, move FR backward
+  // joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  // joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  // applyJointAngles();
+  // move();
+
+  // 2 — Swing FL + BR forward
+  // joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR - TURNING_OFFSET;
+  // joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR - TURNING_OFFSET;
+  // applyJointAngles();
+  // move();
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  applyJointAngles(); move();
+
+  // joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  // joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  // applyJointAngles();
+  // move();
+
+  // joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  // joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  // applyJointAngles();
+  // move();
+  joints.fl_femur = CENTER_FRONT_LEFT_FEMUR;
+  joints.br_femur = CENTER_BACK_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+  joints.fr_femur = CENTER_FRONT_RIGHT_FEMUR;
+  joints.bl_femur = CENTER_BACK_LEFT_FEMUR;
+  applyJointAngles();
+  move();
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+  standUp();
+  robot.idle = true;
+  Serial.println(robot.idle);
+  // standUp();
+}
+
+void reverseWalk() {
+  Serial.println(robot.idle);
+
+  // 1 — Lift FL + BR, move FR forward (opposite of forward walk)
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 2 — Swing FL + BR backward
+  joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 3 — Lift BL + FR, lower FL + BR
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+
+  // Mirror femur positions opposite of forward walk
+  joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = BACKWARD_FRONT_RIGHT_FEMUR;
+
+  applyJointAngles();
+  move();
+
+  // 4 — Lower BL + FR, lift FL + BR
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
 
-  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
-  joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
-  
-  applyJointAngles(); move();
-  
-  robot.idle = true;
-      Serial.println(robot.idle);
+  // Mirror femur positions opposite of forward walk
+  joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
+  joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
 
+  applyJointAngles();
+  move();
+
+  robot.idle = true;
+  Serial.println(robot.idle);
 }
+
+// ...existing code...
+
+// ...existing code...
+
+void turnLeft() {
+  const static int TURNING_OFFSET = 20;
+  Serial.println(robot.idle);
+
+  // 1 — Lift FL + BR, move FR backward
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+
+  // 2 — Center the opposite side
+  joints.fr_femur = CENTER_FRONT_RIGHT_FEMUR;
+  joints.bl_femur = CENTER_BACK_LEFT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 3 — Center the lifted side
+  joints.fl_femur = CENTER_FRONT_LEFT_FEMUR;
+  joints.br_femur = CENTER_BACK_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+
+  // 4 — Put FL + BR down
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+
+  // 5 — Lift FR + BL
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+
+  // 6 — Shift body for left turn
+  joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
+  joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
+  applyJointAngles();
+  move();
+
+  standUp();
+  robot.idle = true;
+  Serial.println(robot.idle);
+}
+
+// ...existing code...
+// ...existing code...
+
 
 
 #endif  // SEQUENCES_H

@@ -12,6 +12,8 @@ Controller controller(&robot);
 void gait();
 void ready();
 
+bool reversed = false;
+
 // ================= ESP-NOW =================
 volatile char command = 0;
 volatile bool commandReady = false;
@@ -52,7 +54,7 @@ void handleCommand(char key) {
   switch (key) {
     case 'x':
     case 'X':
-      calibrate();
+      standUp();
       break;
 
     case 'q':
@@ -66,10 +68,43 @@ void handleCommand(char key) {
       Serial.println(robot.idle);
       if (robot.idle) {
         robot.idle = false;
+        if (reversed) {
+          standUp();
+          reversed = false;
+        }
         Serial.println(robot.idle);
         walk();
         Serial.println("Walk");
       }
+      break;
+
+    case 's':
+    case 'S':
+      Serial.println(robot.idle);
+      if (robot.idle) {
+        if (!reversed) {
+          standUp();
+          reversed = true;
+        }
+        Serial.println("Reverse Walk");
+        robot.idle = false;
+        Serial.println(robot.idle);
+        reverseWalk();
+        break;
+      }
+      break;
+    
+    case 'a':
+    case 'A':
+      standUp();
+      turnLeft();
+      Serial.println("Turn Left");
+      break;
+    case 'd':
+    case 'D':
+      standUp();
+      turnRight();
+      Serial.println("Turn Right");
       break;
 
     case '1':
@@ -110,8 +145,7 @@ void setup() {
   pwm.begin();
   pwm.setPWMFreq(60);
 
-  ready();
-  applyJointAngles();
+  standUp();
 
   receive_init();
   esp_now_register_recv_cb(OnDataRecv);
