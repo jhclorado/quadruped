@@ -21,6 +21,13 @@ volatile bool commandReady = false;
 
 unsigned long lastCommandTime = 0;
 char lastCommand = 0;
+unsigned long lastAcceptedCommandTime = 0;
+char lastAcceptedCommand = 0;
+
+bool isMotionCommandKey(char key) {
+  return (key == 'w' || key == 'W' || key == 's' || key == 'S' ||
+          key == 'a' || key == 'A' || key == 'd' || key == 'D');
+}
 
 // callback when data is received
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
@@ -29,11 +36,19 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   char newCmd = incomingData[0];
   unsigned long now = millis();
 
-  bool isMotionCommand = (newCmd == 'w' || newCmd == 'W' || newCmd == 's' || newCmd == 'S' ||
-                         newCmd == 'a' || newCmd == 'A' || newCmd == 'd' || newCmd == 'D');
+  const bool isMotion = isMotionCommandKey(newCmd);
 
-  // Ignore duplicate packets that arrive too close together, but allow rapid repeats for motion input.
-  if (newCmd == lastCommand && (now - lastCommandTime) < (isMotionCommand ? 30 : 250)) {
+  // Ignore duplicate packets that arrive too close together.
+  // For motion inputs, allow the same key to repeat only after a short cooldown so the
+  // robot can keep moving without getting stuck in a tiny input spam loop.
+  if (newCmd == lastCommand && (now - lastCommandTime) < (isMotion ? 35 : 250)) {
+    return;
+  }
+
+  // If a movement is still mid-step, we briefly reject new motion packets so we do not
+  // stack repeated walk/turn commands during the illegal window, but still allow continued
+  // spamming once that window has passed.
+  if (isMotion && newCmd == lastAcceptedCommand && (now - lastAcceptedCommandTime) < 70) {
     return;
   }
 
@@ -111,6 +126,16 @@ void showActionAnimationForKey(char key) {
 }
 
 void handleCommand(char key) {
+  const unsigned long now = millis();
+
+  if (isMotionCommandKey(key) && key == lastAcceptedCommand && (now - lastAcceptedCommandTime) < 300) {
+    Serial.println("Ignoring motion input during cooldown: " + String(key));
+    return;
+  }
+
+  lastAcceptedCommand = key;
+  lastAcceptedCommandTime = now;
+
   Serial.println("Received command: " + String(key));
 
   switch (key) {
@@ -189,6 +214,16 @@ void handleCommand(char key) {
     case '5':
       chaos();
       break;
+    case 'k':
+    case 'K':
+      showSleepAnimation();
+      Serial.println("Kill switch: powering down PCA9685 and OLED");
+      u8g2.setPowerSave(1);
+      pwm.sleep();
+      delay(50);
+      esp_deep_sleep_start();
+      return;
+
 
     default:
       break;
@@ -201,22 +236,29 @@ void setup() {
 
   Serial.begin(115200);
   delay(500);
-  oled_init();
-  delay(500);
-  showSleepAnimation(120, 1);
+
   pwm.begin();
   pwm.setPWMFreq(60);
 
   robot.setWeaponTarget(90);
   standUp();
-  delay(100);
+  delay(1000);
   standUp();
-  delay(100);
+  delay(500);
+
+  oled_init();
+  delay(500);
+  showSleepAnimation(120, 1);
+  
 
   receive_init();
   esp_now_register_recv_cb(OnDataRecv);
 
   Serial.println("\n=== BattleBot Ready ===");
+  standUp();
+  delay(1000);
+  standUp();
+  delay(500);
 }
 
 void loop() {

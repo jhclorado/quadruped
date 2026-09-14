@@ -24,7 +24,7 @@ void moveServo(int servoIndex, int targetAngle)
   {
     servoAngles[servoIndex] = i;
     pwm.setPWM(servoPins[servoIndex], 0, angleToPulse(i));
-    delay(3); // Adjust the delay for smoother motion
+    delay(4); // Adjust the delay for smoother motion
   }
 }
 
