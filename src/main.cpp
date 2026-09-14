@@ -5,6 +5,7 @@
 #include "comm.h"
 #include "espnow.h"
 #include "sequences.h"
+#include "oleddd.h"
 
 Quadruped robot(0, 1, 2, 3, 4, 5, 6, 7);
 Controller controller(&robot);
@@ -55,6 +56,7 @@ void handleCommand(char key) {
     case 'x':
     case 'X':
       standUp();
+      showIdleAnimation(120, 1);
       break;
 
     case 'q':
@@ -74,6 +76,7 @@ void handleCommand(char key) {
         }
         Serial.println(robot.idle);
         walk();
+        showAngryAnimation(120, 1);
         Serial.println("Walk");
       }
       break;
@@ -90,6 +93,7 @@ void handleCommand(char key) {
         robot.idle = false;
         Serial.println(robot.idle);
         reverseWalk();
+        showSadAnimation(120, 1);
         break;
       }
       break;
@@ -99,17 +103,20 @@ void handleCommand(char key) {
       standUp();
       turnLeft();
       Serial.println("Turn Left");
+      showHappyAnimation(120, 1);
       break;
     case 'd':
     case 'D':
       standUp();
       turnRight();
       Serial.println("Turn Right");
+      showHappyAnimation(120, 1);
       break;
 
     case '1':
       pushup();
       Serial.println("Pushup");
+      showHappyAnimation(120, 1);
       break;
 
     case 'c':
@@ -119,18 +126,22 @@ void handleCommand(char key) {
 
     case '2':
       kembot();
+      showHappyAnimation(120, 1);
       break;
 
     case '3':
       greet();
+      showHappyAnimation(120, 1);
       break;
 
     case '4':
       dogbot();
+      showHappyAnimation(120, 1);
       break;
 
     case '5':
       chaos();
+      showHappyAnimation(120, 1);
       break;
 
     default:
@@ -139,9 +150,12 @@ void handleCommand(char key) {
 }
 
 void setup() {
+
   Serial.begin(115200);
   delay(500);
-
+  oled_init();
+  delay(500);
+  showSleepAnimation(120, 1);
   pwm.begin();
   pwm.setPWMFreq(60);
 
