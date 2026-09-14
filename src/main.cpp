@@ -177,5 +177,6 @@ void loop() {
     }
   }
 
+  oled_updateAnimation();
   robot.update();
 }
