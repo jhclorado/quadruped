@@ -134,7 +134,7 @@ void handleCommand(char key) {
           reversed = false;
         }
       }
-      walk();
+      potangina();
       Serial.println("Walk");
       break;
 

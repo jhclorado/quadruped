@@ -907,5 +907,40 @@ void turnLeft() {
 // ...existing code...
 
 
+void potangina() {
+  Serial.println(robot.idle);
+
+  // 1 — Lift FL + BR, move FR backward
+  joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
+  joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_femur  = FORWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur  = FORWARD_BACK_RIGHT_FEMUR;
+  applyJointAngles();
+  move();
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+  joints.fl_femur  = BACKWARD_FRONT_LEFT_FEMUR;
+  joints.br_femur  = BACKWARD_BACK_RIGHT_FEMUR;
+  joints.fr_femur  = FORWARD_FRONT_RIGHT_FEMUR;
+  joints.bl_femur  = FORWARD_BACK_LEFT_FEMUR;
+  applyJointAngles();
+  move();
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
+  applyJointAngles();
+  move();
+  robot.idle = true;
+  Serial.println(robot.idle);
+
+}
+
 
 #endif  // SEQUENCES_H
