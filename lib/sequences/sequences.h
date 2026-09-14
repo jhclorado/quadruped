@@ -4,7 +4,7 @@
 // #define PIOLO
 #pragma once
 #include "legs.h"
-#define STANDING_OFFSET 10
+#define STANDING_OFFSET 0
 extern Quadruped robot;
 extern Controller controller;
 
@@ -195,6 +195,7 @@ void move() {
        (robot.frontRight.femur.currentAngle != joints.fr_femur)
      ) {
        robot.update();
+       delay(5);
      }
 }
 
@@ -657,6 +658,8 @@ void walk() {
   // 1 — Lift FL + BR, move FR backward
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
   joints.fr_femur  = BACKWARD_FRONT_RIGHT_FEMUR;
   applyJointAngles();
   move();
@@ -670,8 +673,8 @@ void walk() {
   // 3 — Lift BL + FR, lower FL + BR
   joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
   joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA + 15;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA + 35;
   applyJointAngles();
   move();
   // Mirror femur positions
@@ -684,8 +687,8 @@ void walk() {
   move();
 
   // 4 — Lower BL + FR, lift FL + BR
-  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
-  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA - 35;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA - 15;
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
   applyJointAngles();
@@ -817,7 +820,7 @@ void reverseWalk() {
   joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
   joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
   joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA + 15;
-  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA + 25;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA + 35;
   applyJointAngles();
   move();
 
@@ -831,7 +834,7 @@ void reverseWalk() {
   move();
 
   // 4 — Lower BL + FR, lift FL + BR
-  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA -25;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA - 35;
   joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA - 15;
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
