@@ -5,14 +5,14 @@
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-const int servoCount = 8; // Number of servos you have
-const int servoPins[] = {8, 9, 10, 11, 4, 5, 6, 7}; // Define the PCA9685 pins for your servos
+const int servoCount = 9; // Number of servos you have
+const int servoPins[] = {0, 1, 2, 3, 4, 5, 6, 7, 8}; // Define the PCA9685 pins for your servos
 
 int servoAngles[servoCount]; // Array to store current servo angles
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pwm.begin();
   pwm.setPWMFreq(60);
 }

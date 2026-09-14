@@ -181,6 +181,8 @@ void applyJointAngles() {
   robot.backRight.setTarget(joints.br_femur, joints.br_fibula);
 }
 
+
+
 void move() {
      while (
        (robot.frontLeft.fibula.currentAngle != joints.fl_fibula) ||
@@ -624,6 +626,27 @@ void standUp() {
   joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
   joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
   applyJointAngles(); move();
+}
+
+void attack() {
+  robot.setWeaponTarget(60);
+  while (robot.weapon.currentAngle != robot.weapon.targetAngle) {
+    robot.update();
+  }
+
+  delay(120);
+
+  robot.setWeaponTarget(0);
+  while (robot.weapon.currentAngle != robot.weapon.targetAngle) {
+    robot.update();
+  }
+
+  delay(120);
+
+  robot.setWeaponTarget(90);
+  while (robot.weapon.currentAngle != robot.weapon.targetAngle) {
+    robot.update();
+  }
 }
 
 

@@ -125,6 +125,20 @@ public:
   }
 };
 
+class Weapon : public Joint {
+public:
+  Weapon(int pin) : Joint(pin) {}
+
+  void setTarget(int angle) override {
+    if (angle < 0) {
+      angle = 0;
+    } else if (angle > 180) {
+      angle = 180;
+    }
+    Joint::setTarget(angle);
+  }
+};
+
 class Quadruped {
 public:
   bool idle = true;
@@ -132,23 +146,31 @@ public:
   Limb frontRight;
   Limb backLeft;
   Limb backRight;
+  Weapon weapon;
 
   Quadruped(
     int fl_femur, int fl_fibula,
     int fr_femur, int fr_fibula,
     int bl_femur, int bl_fibula,
-    int br_femur, int br_fibula
+    int br_femur, int br_fibula,
+    int weaponPin
   )
     : frontLeft(fl_femur, fl_fibula),
       frontRight(fr_femur, fr_fibula),
       backLeft(bl_femur, bl_fibula),
-      backRight(br_femur, br_fibula) {}
+      backRight(br_femur, br_fibula),
+      weapon(weaponPin) {}
 
   void update() {
     frontLeft.update();
     frontRight.update();
     backLeft.update();
     backRight.update();
+    weapon.update();
+  }
+
+  void setWeaponTarget(int angle) {
+    weapon.setTarget(angle);
   }
 };
 

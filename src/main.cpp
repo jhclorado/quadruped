@@ -7,7 +7,7 @@
 #include "sequences.h"
 #include "oleddd.h"
 
-Quadruped robot(0, 1, 2, 3, 4, 5, 6, 7);
+Quadruped robot(0, 1, 2, 3, 4, 5, 6, 7, 8);
 Controller controller(&robot);
 
 void gait();
@@ -113,10 +113,17 @@ void handleCommand(char key) {
       showHappyAnimation(120, 1);
       break;
 
+    // case '1':
+    //   pushup();
+    //   Serial.println("Pushup");
+    //   showHappyAnimation(120, 1);
+    //   break;
+
     case '1':
-      pushup();
-      Serial.println("Pushup");
-      showHappyAnimation(120, 1);
+    // case 'E':
+      attack();
+      Serial.println("Attack");
+      showAngryAnimation(120, 1);
       break;
 
     case 'c':
@@ -159,6 +166,7 @@ void setup() {
   pwm.begin();
   pwm.setPWMFreq(60);
 
+  robot.setWeaponTarget(90);
   standUp();
 
   receive_init();
