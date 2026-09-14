@@ -797,7 +797,7 @@ void turnRight() {
 void reverseWalk() {
   Serial.println(robot.idle);
 
-  // 1 — Lift FL + BR, move FR forward (opposite of forward walk)
+  // 1 — Lift FL + BR, move FR forward (reverse of the forward step)
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
   joints.fr_femur = FORWARD_FRONT_RIGHT_FEMUR;
@@ -813,10 +813,12 @@ void reverseWalk() {
   // 3 — Lift BL + FR, lower FL + BR
   joints.bl_fibula = LIFT_BACK_LEFT_FIBULA;
   joints.fr_fibula = LIFT_FRONT_RIGHT_FIBULA;
-  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA;
-  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA;
+  joints.fl_fibula = DOWN_FRONT_LEFT_FIBULA + 15;
+  joints.br_fibula = DOWN_BACK_RIGHT_FIBULA + 35;
+  applyJointAngles();
+  move();
 
-  // Mirror femur positions opposite of forward walk
+  // Mirror femur positions (reverse of forward walk)
   joints.fl_femur = FORWARD_FRONT_LEFT_FEMUR;
   joints.br_femur = FORWARD_BACK_RIGHT_FEMUR;
   joints.bl_femur = BACKWARD_BACK_LEFT_FEMUR;
@@ -826,12 +828,14 @@ void reverseWalk() {
   move();
 
   // 4 — Lower BL + FR, lift FL + BR
-  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA;
-  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA;
+  joints.bl_fibula = DOWN_BACK_LEFT_FIBULA - 35;
+  joints.fr_fibula = DOWN_FRONT_RIGHT_FIBULA - 15;
   joints.fl_fibula = LIFT_FRONT_LEFT_FIBULA;
   joints.br_fibula = LIFT_BACK_RIGHT_FIBULA;
+  applyJointAngles();
+  move();
 
-  // Mirror femur positions opposite of forward walk
+  // Mirror femur positions (reverse of forward walk)
   joints.fl_femur = BACKWARD_FRONT_LEFT_FEMUR;
   joints.br_femur = BACKWARD_BACK_RIGHT_FEMUR;
   joints.bl_femur = FORWARD_BACK_LEFT_FEMUR;

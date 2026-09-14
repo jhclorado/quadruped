@@ -52,6 +52,64 @@ bool isInterrupted() {
   return false;
 }
 
+void showActionAnimationForKey(char key) {
+  switch (key) {
+    case 'x':
+    case 'X':
+      showIdleFace();
+      break;
+
+    case 'q':
+    case 'Q':
+      showIdleFace();
+      break;
+
+    case 'w':
+    case 'W':
+      showTalkHappyFace();
+      break;
+
+    case 's':
+    case 'S':
+      showTalkSadFace();
+      break;
+
+    case 'a':
+    case 'A':
+      showTalkHappyFace();
+      break;
+
+    case 'd':
+    case 'D':
+      showTalkHappyFace();
+      break;
+
+    case '1':
+      showTalkAngryFace();
+      break;
+
+    case '2':
+      showTalkHappyFace();
+      break;
+
+    case '3':
+      showHappyFace();
+      break;
+
+    case '4':
+      showHappyFace();
+      break;
+
+    case '5':
+      showAngryFace();
+      break;
+
+    default:
+      showIdleFace();
+      break;
+  }
+}
+
 void handleCommand(char key) {
   Serial.println("Received command: " + String(key));
 
@@ -59,7 +117,6 @@ void handleCommand(char key) {
     case 'x':
     case 'X':
       standUp();
-      showIdleAnimation(120, 1);
       break;
 
     case 'q':
@@ -78,7 +135,6 @@ void handleCommand(char key) {
         }
       }
       walk();
-      showAngryAnimation(120, 1);
       Serial.println("Walk");
       break;
 
@@ -93,7 +149,6 @@ void handleCommand(char key) {
       robot.idle = false;
       Serial.println("Reverse Walk");
       reverseWalk();
-      showSadAnimation(120, 1);
       break;
     
     case 'a':
@@ -101,27 +156,17 @@ void handleCommand(char key) {
       standUp();
       turnLeft();
       Serial.println("Turn Left");
-      showHappyAnimation(120, 1);
       break;
     case 'd':
     case 'D':
       standUp();
       turnRight();
       Serial.println("Turn Right");
-      showHappyAnimation(120, 1);
       break;
 
-    // case '1':
-    //   pushup();
-    //   Serial.println("Pushup");
-    //   showHappyAnimation(120, 1);
-    //   break;
-
     case '1':
-    // case 'E':
       attack();
       Serial.println("Attack");
-      showAngryAnimation(120, 1);
       break;
 
     case 'c':
@@ -131,27 +176,25 @@ void handleCommand(char key) {
 
     case '2':
       kembot();
-      showHappyAnimation(120, 1);
       break;
 
     case '3':
       greet();
-      showHappyAnimation(120, 1);
       break;
 
     case '4':
       dogbot();
-      showHappyAnimation(120, 1);
       break;
 
     case '5':
       chaos();
-      showHappyAnimation(120, 1);
       break;
 
     default:
       break;
   }
+
+  showActionAnimationForKey(key);
 }
 
 void setup() {
