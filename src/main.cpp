@@ -209,6 +209,9 @@ void setup() {
 
   robot.setWeaponTarget(90);
   standUp();
+  delay(100);
+  standUp();
+  delay(100);
 
   receive_init();
   esp_now_register_recv_cb(OnDataRecv);

@@ -195,7 +195,7 @@ void move() {
        (robot.frontRight.femur.currentAngle != joints.fr_femur)
      ) {
        robot.update();
-       delay(5);
+      //  delay(5);
      }
 }
 
