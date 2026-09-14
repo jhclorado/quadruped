@@ -29,8 +29,11 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   char newCmd = incomingData[0];
   unsigned long now = millis();
 
-  // Ignore duplicate packets that arrive too close together
-  if (newCmd == lastCommand && (now - lastCommandTime) < 250) {
+  bool isMotionCommand = (newCmd == 'w' || newCmd == 'W' || newCmd == 's' || newCmd == 'S' ||
+                         newCmd == 'a' || newCmd == 'A' || newCmd == 'd' || newCmd == 'D');
+
+  // Ignore duplicate packets that arrive too close together, but allow rapid repeats for motion input.
+  if (newCmd == lastCommand && (now - lastCommandTime) < (isMotionCommand ? 30 : 250)) {
     return;
   }
 
@@ -67,35 +70,30 @@ void handleCommand(char key) {
 
     case 'w':
     case 'W':
-      Serial.println(robot.idle);
       if (robot.idle) {
         robot.idle = false;
         if (reversed) {
           standUp();
           reversed = false;
         }
-        Serial.println(robot.idle);
-        walk();
-        showAngryAnimation(120, 1);
-        Serial.println("Walk");
       }
+      walk();
+      showAngryAnimation(120, 1);
+      Serial.println("Walk");
       break;
 
     case 's':
     case 'S':
-      Serial.println(robot.idle);
       if (robot.idle) {
         if (!reversed) {
           standUp();
           reversed = true;
         }
-        Serial.println("Reverse Walk");
-        robot.idle = false;
-        Serial.println(robot.idle);
-        reverseWalk();
-        showSadAnimation(120, 1);
-        break;
       }
+      robot.idle = false;
+      Serial.println("Reverse Walk");
+      reverseWalk();
+      showSadAnimation(120, 1);
       break;
     
     case 'a':
